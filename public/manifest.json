@@ -1,0 +1,24 @@
+{
+  "name": "Jibbermaster's BeerMiser",
+  "short_name": "BeerMiser",
+  "start_url": ".",
+  "lang": "en-US",
+  "display": "fullscreen",
+  "orientation": "any",
+  "theme_color": "black",
+  "background_color": "#17a2b8",
+  "icons": [
+    {
+      "src": "./icon/beer-64.png",
+      "sizes": "64x64"
+    },
+    {
+      "src": "./icon/beer-128.png",
+      "sizes": "128x128"
+    },
+    {
+      "src": "./icon/beer-256.png",
+      "sizes": "256x256"
+    }
+  ]
+}

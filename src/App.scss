@@ -1,0 +1,15 @@
+@import "styles/colors.scss";
+@import "~bootstrap/scss/bootstrap";
+
+.text-shadow {
+  text-shadow: 0 0 25px $dark, 0 0 5px $black;
+}
+
+.noselect {
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
