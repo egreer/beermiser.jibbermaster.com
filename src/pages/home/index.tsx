@@ -17,7 +17,18 @@ import { assign, set, isFunction, cloneDeep, remove, orderBy } from "lodash";
 import store from "store";
 import uuidv4 from "uuid/v4";
 
-const INITIAL_STATE = {
+const INITIAL_STATE: {
+  name: string;
+  alcohol: string;
+  alcohol_unit: string;
+  volume: string;
+  volume_unit: string;
+  price: string;
+  stored: Array<any>;
+  calculation?: number | null;
+  apv_calculation?: number | null;
+  ppv_calculation?: number | null;
+} = {
   name: "",
   alcohol: "",
   alcohol_unit: "APV",
@@ -38,7 +49,7 @@ export class Home extends Component {
     this.setState(state);
   };
 
-  persistState = (state, callback) => {
+  persistState = (state: any, callback?: Function) => {
     this.setState(state, () => {
       store.set("beermiser-state", this.state);
       if (isFunction(callback)) {
@@ -47,7 +58,7 @@ export class Home extends Component {
     });
   };
 
-  handleChange = event => {
+  handleChange = (event: any) => {
     this.persistState(
       set({}, event.target.name, event.target.value),
       this.updateCalculation
@@ -97,7 +108,7 @@ export class Home extends Component {
     this.persistState(this.calculateCalculations(this.state));
   };
 
-  calculateCalculations = brew => {
+  calculateCalculations = (brew: any) => {
     const { alcohol, alcohol_unit, volume, volume_unit, price } = brew;
 
     var localAlcohol = alcohol;
@@ -160,13 +171,13 @@ export class Home extends Component {
     });
   };
 
-  removeBrew = id => {
+  removeBrew = (id: string) => {
     const { stored } = this.state;
     remove(stored, storedBrew => storedBrew.id === id);
     this.persistState({ stored });
   };
 
-  editBrew = brew => {
+  editBrew = (brew: any) => {
     this.persistState(brew);
     this.removeBrew(brew.id);
   };
@@ -356,7 +367,7 @@ export class Home extends Component {
 
   renderResults = () => {
     const { stored } = this.state;
-    const rows = stored.map((brew, i) => {
+    const rows = stored.map(brew => {
       return (
         <React.Fragment key={brew.id}>
           <tr>
