@@ -55,7 +55,8 @@
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "pretty": "prettier --write \"src/**/*.js\""
+    "pretty": "prettier --write \"src/**/*.js\" --write \"src/**/*.jsx\" --write \"src/**/*.ts\" --write \"src/**/*.tsx\"",
+    "pretty-quick": "pretty-quick"
   },
   "eslintConfig": {
     "extends": "react-app"
