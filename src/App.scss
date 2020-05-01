@@ -1,6 +1,8 @@
 @import "styles/colors.scss";
 @import "~bootstrap/scss/bootstrap";
 
+@import "styles/calculations.scss";
+
 .text-shadow {
   text-shadow: 0 0 25px $dark, 0 0 5px $black;
 }

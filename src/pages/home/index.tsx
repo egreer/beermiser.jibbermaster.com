@@ -16,29 +16,32 @@ import {
 import { assign, set, isFunction, cloneDeep, remove, orderBy } from "lodash";
 import store from "store";
 import uuidv4 from "uuid/v4";
+import { Size, Brew } from "../../models/brew";
 
-const INITIAL_STATE: {
-  name: string;
-  alcohol: string;
-  alcohol_unit: string;
-  volume: string;
-  volume_unit: string;
-  price: string;
-  stored: Array<any>;
-  calculation?: number | null;
-  apv_calculation?: number | null;
-  ppv_calculation?: number | null;
-} = {
-  name: "",
-  alcohol: "",
-  alcohol_unit: "APV",
+const INITIAL_SIZE: Size = {
+  id: uuidv4(),
   volume: "",
   volume_unit: "Oz",
   price: "",
-  stored: [],
   calculation: null,
   apv_calculation: null,
   ppv_calculation: null
+};
+
+const INITIAL_BREW: Brew = {
+  id: uuidv4(),
+  name: "",
+  alcohol: "",
+  alcohol_unit: "APV",
+  sizes: [cloneDeep(INITIAL_SIZE)]
+};
+
+const INITIAL_STATE: {
+  stored: Array<any>;
+  brew: Brew;
+} = {
+  stored: [],
+  brew: cloneDeep(INITIAL_BREW)
 };
 
 export class Home extends Component {
@@ -59,39 +62,35 @@ export class Home extends Component {
   };
 
   handleChange = (event: any) => {
+    const { brew } = this.state;
     this.persistState(
-      set({}, event.target.name, event.target.value),
+      { brew: set(brew, event.target.name, event.target.value) },
       this.updateCalculation
     );
   };
 
+  handleVolumeChange = (event: any, id: string) => {
+    console.log(event, id);
+    const { brew } = this.state;
+    const { sizes } = this.state.brew;
+    sizes.map(v => {
+      if (v.id === id) {
+        set(v, event.target.name, event.target.value);
+      }
+      return v;
+    });
+    this.persistState(brew, this.updateCalculation);
+  };
+
   saveCurrent = () => {
     console.log("Save Current", this.state);
-    const {
-      alcohol,
-      alcohol_unit,
-      volume,
-      volume_unit,
-      name,
-      price,
-      apv_calculation,
-      ppv_calculation,
-      calculation,
-      stored
-    } = this.state;
-    const brew = {
-      id: uuidv4(),
-      name,
-      alcohol,
-      alcohol_unit,
-      volume,
-      volume_unit,
-      price,
-      calculation,
-      apv_calculation,
-      ppv_calculation
-    };
-    stored.push(brew);
+    const { brew, stored } = this.state;
+
+    brew.id = uuidv4();
+    brew.sizes.forEach(size => {
+      size.id = uuidv4();
+      stored.push(this.buildBrewSize(brew, size));
+    });
 
     this.persistState(
       assign(cloneDeep(INITIAL_STATE), {
@@ -104,57 +103,73 @@ export class Home extends Component {
     );
   };
 
-  updateCalculation = () => {
-    this.persistState(this.calculateCalculations(this.state));
+  buildBrewSize = (brew: Brew, size: Size) => {
+    console.log("brew", brew);
+    console.log("size", size);
+    const brewSize = assign({}, brew, size);
+    console.log("brewSize", brewSize);
+    delete brewSize.sizes;
+    assign(brewSize, { brewId: brew.id, id: size.id });
+    return brewSize;
   };
 
-  calculateCalculations = (brew: any) => {
-    const { alcohol, alcohol_unit, volume, volume_unit, price } = brew;
+  updateCalculation = () => {
+    this.persistState({ brew: this.calculateCalculations(this.state.brew) });
+  };
 
-    var localAlcohol = alcohol;
-    var localVolume = volume;
-    var localAPVCalculation = null;
-    var localPPVCalculation = null;
-    var localCalculation = null;
+  calculateCalculations = (brew: Brew) => {
+    const { alcohol, alcohol_unit } = brew;
+    brew.sizes.forEach((size: Size) => {
+      const { volume, volume_unit, price } = size;
 
-    if (alcohol_unit === "ABW") {
-      localAlcohol = alcohol * 1.25;
-    }
+      let localAlcohol = parseFloat(alcohol);
+      let localVolume = parseFloat(volume);
+      let localAPVCalculation = null;
+      let localPPVCalculation = null;
+      let localCalculation = null;
 
-    if (volume_unit === "mL") {
-      localVolume = volume * 0.03381;
-    } else if (volume_unit === "L") {
-      localVolume = volume * 1000 * 0.03381;
-    }
+      if (alcohol && alcohol_unit === "ABW") {
+        localAlcohol = parseFloat(alcohol) * 1.25;
+      }
 
-    if (localAlcohol && localAlcohol > 0 && localVolume && localVolume > 0) {
-      localAPVCalculation = (localAlcohol / 100) * localVolume;
-    }
+      if (volume && volume_unit === "mL") {
+        localVolume = parseFloat(volume) * 0.03381;
+      } else if (volume && volume_unit === "L") {
+        localVolume = parseFloat(volume) * 1000 * 0.03381;
+      }
 
-    if (localVolume && localVolume > 0 && price && price > 0) {
-      localPPVCalculation = price / localVolume;
-    }
+      if (localAlcohol && localAlcohol > 0 && localVolume && localVolume > 0) {
+        localAPVCalculation = (localAlcohol / 100) * localVolume;
+      }
 
-    if (
-      localAlcohol &&
-      localAlcohol > 0 &&
-      localVolume &&
-      localVolume > 0 &&
-      price &&
-      price > 0
-    ) {
-      localCalculation = price / ((localAlcohol / 100) * localVolume);
-    }
+      if (localVolume && localVolume > 0 && price && parseFloat(price) > 0) {
+        localPPVCalculation = parseFloat(price) / localVolume;
+      }
 
-    // console.log("localCalculation", localCalculation);
-    // console.log("localAPVCalculation", localAPVCalculation);
-    // console.log("localPPVCalculation", localPPVCalculation);
+      if (
+        localAlcohol &&
+        localAlcohol > 0 &&
+        localVolume &&
+        localVolume > 0 &&
+        price &&
+        parseFloat(price) > 0
+      ) {
+        localCalculation =
+          parseFloat(price) / ((localAlcohol / 100) * localVolume);
+      }
 
-    return {
-      calculation: localCalculation,
-      apv_calculation: localAPVCalculation,
-      ppv_calculation: localPPVCalculation
-    };
+      // console.log("size", size);
+      // console.log("localCalculation", localCalculation);
+      // console.log("localAPVCalculation", localAPVCalculation);
+      // console.log("localPPVCalculation", localPPVCalculation);
+      assign(size, {
+        calculation: localCalculation,
+        apv_calculation: localAPVCalculation,
+        ppv_calculation: localPPVCalculation
+      });
+    });
+
+    return brew;
   };
 
   reCalculateAll = () => {
@@ -171,15 +186,54 @@ export class Home extends Component {
     });
   };
 
-  removeBrew = (id: string) => {
+  removeActiveBrewSize = (sizeId: string) => {
+    const { brew } = this.state;
+    remove(brew.sizes, size => size.id === sizeId);
+    this.persistState({ brew });
+  };
+
+  removeBrewSize = (id: string) => {
     const { stored } = this.state;
     remove(stored, storedBrew => storedBrew.id === id);
     this.persistState({ stored });
   };
 
-  editBrew = (brew: any) => {
-    this.persistState(brew);
+  removeBrew = (id: string) => {
+    const { stored } = this.state;
+    remove(stored, storedBrew => storedBrew.brewId === id);
+    this.persistState({ stored });
+  };
+
+  editBrew = (brewSize: any) => {
+    const brew = this.rebuildBrew(brewSize.brewId);
+    this.persistState({ brew });
     this.removeBrew(brew.id);
+  };
+
+  rebuildBrew = (brewId: string): Brew => {
+    const { stored } = this.state;
+    const sizes = stored.filter(brewSize => brewSize.brewId == brewId);
+    const brew: Brew = {
+      id: brewId,
+      name: sizes[0].name,
+      alcohol: sizes[0].alcohol,
+      alcohol_unit: sizes[0].alcohol_unit,
+      sizes
+    };
+    sizes.forEach(s => {
+      delete s.name;
+      delete s.alcohol;
+      delete s.alcohol_unit;
+    });
+    return brew;
+  };
+
+  addSize = () => {
+    const { brew } = this.state;
+    const newSize = cloneDeep(INITIAL_SIZE);
+    newSize.id = uuidv4();
+    brew.sizes.push(newSize);
+    this.persistState({ brew });
   };
 
   reset = () => {
@@ -187,14 +241,8 @@ export class Home extends Component {
   };
 
   render() {
-    const {
-      name,
-      alcohol,
-      alcohol_unit,
-      volume,
-      volume_unit,
-      price
-    } = this.state;
+    const { brew } = this.state;
+    const { name, alcohol, alcohol_unit, sizes } = brew;
 
     return (
       <div className="home">
@@ -247,56 +295,24 @@ export class Home extends Component {
             </Col>
           </FormGroup>
 
-          <FormGroup row>
-            <Col sm={12}>
-              <InputGroup>
-                <Input
-                  type="number"
-                  name="volume"
-                  placeholder="Volume"
-                  value={volume}
-                  onChange={this.handleChange}
-                  min={0}
-                />
-                <InputGroupAddon addonType="append">
-                  <Input
-                    type="select"
-                    name="volume_unit"
-                    value={volume_unit}
-                    className={"ml-2"}
-                    onChange={this.handleChange}
-                  >
-                    <option>Oz</option>
-                    <option>mL</option>
-                    <option>L</option>
-                  </Input>
-                </InputGroupAddon>
-              </InputGroup>
-            </Col>
-          </FormGroup>
+          {this.renderSizes(sizes)}
 
-          <FormGroup row>
-            <Col sm={12}>
-              <InputGroup>
-                <Input
-                  type="number"
-                  name="price"
-                  placeholder="Price"
-                  value={price}
-                  onChange={this.handleChange}
-                  min={0}
-                  step={0.01}
-                />
-                <InputGroupAddon addonType="append">$</InputGroupAddon>
-              </InputGroup>
+          <Row>
+            <Col sm={{ size: 6, offset: 6 }}>
+              <Button block onClick={this.addSize}>
+                Add Size
+              </Button>
             </Col>
-          </FormGroup>
+          </Row>
 
           <Row>
             <Col>
-              <div className="text-center my-2">{this.renderCalculation()}</div>
+              <div className="text-center my-2">
+                {this.renderCalculations(brew)}
+              </div>
             </Col>
           </Row>
+
           <Row>
             <Col sm={{ size: 6, offset: 6 }}>
               <Button block color="success" onClick={this.saveCurrent}>
@@ -327,59 +343,155 @@ export class Home extends Component {
     );
   }
 
-  renderCalculation = () => {
-    const { calculation, apv_calculation, ppv_calculation } = this.state;
-    if (calculation || apv_calculation || ppv_calculation) {
-      return (
-        <Alert color="success">
-          {calculation && (
-            <h5>
-              {calculation.toFixed(3)}
-              <small className="noselect px-1 text-nowrap">
-                <sup>$</sup>/<sub>A</sub>
-              </small>
-            </h5>
-          )}
-          {apv_calculation && (
-            <h5>
-              {apv_calculation.toFixed(3)}
-              <small className="noselect px-1">Alc</small>
-            </h5>
-          )}
-          {ppv_calculation && (
-            <h5>
-              {ppv_calculation.toFixed(3)}
-              <small className="noselect px-1">
-                <sup>$</sup>/<sub>oz</sub>
-              </small>
-            </h5>
-          )}
-        </Alert>
-      );
-    } else {
-      return (
-        <Alert color="success" style={{ opacity: 0.3 }}>
+  renderSizes = (sizes: Array<any>) => {
+    return sizes?.map((v, i) => (
+      <FormGroup row key={i}>
+        <Col xs={{ size: 12 }} sm={6} className={"mb-3 mb-sm-0"}>
+          <InputGroup>
+            <Input
+              type="number"
+              name="volume"
+              placeholder="Volume"
+              value={v.volume}
+              onChange={e => this.handleVolumeChange(e, v.id)}
+              min={0}
+            />
+            <InputGroupAddon addonType="append">
+              <Input
+                type="select"
+                name="volume_unit"
+                value={v.volume_unit}
+                className={"ml-2"}
+                onChange={e => this.handleVolumeChange(e, v.id)}
+              >
+                <option>Oz</option>
+                <option>mL</option>
+                <option>L</option>
+              </Input>
+            </InputGroupAddon>
+          </InputGroup>
+        </Col>
+        <Col xs={{ size: 10 }} sm={4} className={"mb-3 mb-sm-0 pr-1"}>
+          <InputGroup>
+            <Input
+              type="number"
+              name="price"
+              placeholder="Price"
+              value={v.price}
+              onChange={e => this.handleVolumeChange(e, v.id)}
+              min={0}
+              step={0.01}
+            />
+            <InputGroupAddon addonType="append">$</InputGroupAddon>
+          </InputGroup>
+        </Col>
+        <Col>
+          <Button
+            color="danger"
+            block
+            disabled={sizes.length <= 1}
+            onClick={() => this.removeActiveBrewSize(v.id)}
+          >
+            <i className="fa fa-trash"></i>
+          </Button>
+        </Col>
+      </FormGroup>
+    ));
+  };
+
+  renderCalculations = (brew: Brew) => {
+    return (
+      <Alert color="success" className="calculations">
+        {brew.sizes.map(s => this.renderCalculation(s))}
+      </Alert>
+    );
+  };
+
+  renderCalculation = (size: Size) => {
+    if (size) {
+      const {
+        calculation,
+        apv_calculation,
+        ppv_calculation,
+        volume,
+        volume_unit
+      } = size;
+
+      let cols = (
+        <Col xs={6} sm={9} style={{ opacity: 0.3 }}>
           <h5>Calculating....</h5>
-        </Alert>
+        </Col>
+      );
+
+      if (calculation || apv_calculation || ppv_calculation) {
+        cols = (
+          <>
+            <Col xs={6} sm={3}>
+              {calculation && (
+                <h5>
+                  {calculation.toFixed(3)}
+                  <small className="noselect px-1 text-nowrap">
+                    <sup>$</sup>/<sub>A</sub>
+                  </small>
+                </h5>
+              )}
+            </Col>
+            <Col xs={6} sm={3}>
+              {apv_calculation && (
+                <h5>
+                  {apv_calculation.toFixed(3)}
+                  <small className="noselect px-1">Alc</small>
+                </h5>
+              )}
+            </Col>
+            <Col xs={6} sm={3}>
+              {ppv_calculation && (
+                <h5>
+                  {ppv_calculation.toFixed(3)}
+                  <small className="noselect px-1">
+                    <sup>$</sup>/<sub>oz</sub>
+                  </small>
+                </h5>
+              )}
+            </Col>
+          </>
+        );
+      }
+
+      return (
+        <Row>
+          <Col xs={6} sm={3}>
+            <h5>
+              {volume} {volume_unit}
+            </h5>
+          </Col>
+          {cols}
+        </Row>
       );
     }
+
+    //return; <></>;
+    //   <Alert color="success" style={{ opacity: 0.3 }}>
+    //     <h5>Calculating....</h5>
+    //   </Alert>
+    // );
   };
 
   renderResults = () => {
     const { stored } = this.state;
-    const rows = stored.map(brew => {
+    const rows = stored.map(brewSize => {
       return (
-        <React.Fragment key={brew.id}>
+        <React.Fragment key={brewSize.id}>
           <tr>
             <td className="align-middle text-left">
-              <div className="mb-2">{brew.name}</div>
+              <div className="mb-2">{brewSize.name}</div>
               <ButtonGroup>
-                <Button onClick={() => this.editBrew(brew)} size={"sm"}>
+                <Button onClick={() => this.editBrew(brewSize)} size={"sm"}>
                   <i className="fa fa-edit px-1"></i>
                 </Button>
                 <Button
                   color="danger"
-                  onClick={() => this.removeBrew(brew.id)}
+                  onClick={() => this.removeBrewSize(brewSize.id)}
                   size={"sm"}
                 >
                   <i className="fa fa-times px-1"></i>
@@ -387,24 +499,26 @@ export class Home extends Component {
               </ButtonGroup>
             </td>
             <td className="align-middle text-left">
-              <div>{brew.price && `$${parseFloat(brew.price).toFixed(2)}`}</div>
               <div>
-                <span className="mr-1">{brew.alcohol}</span>
-                <small>{brew.alcohol_unit}</small>
+                {brewSize.price && `$${parseFloat(brewSize.price).toFixed(2)}`}
               </div>
               <div>
-                <span className="mr-1">{brew.volume}</span>
-                <small>{brew.volume_unit}</small>
+                <span className="mr-1">{brewSize.alcohol}</span>
+                <small>{brewSize.alcohol_unit}</small>
+              </div>
+              <div>
+                <span className="mr-1">{brewSize.volume}</span>
+                <small>{brewSize.volume_unit}</small>
               </div>
             </td>
             <td className="align-middle">
-              {brew.ppv_calculation && brew.ppv_calculation.toFixed(3)}
+              {brewSize.ppv_calculation && brewSize.ppv_calculation.toFixed(3)}
             </td>
             <td className="align-middle">
-              {brew.apv_calculation && brew.apv_calculation.toFixed(3)}
+              {brewSize.apv_calculation && brewSize.apv_calculation.toFixed(3)}
             </td>
             <td className="align-middle">
-              {brew.calculation && brew.calculation.toFixed(3)}
+              {brewSize.calculation && brewSize.calculation.toFixed(3)}
             </td>
           </tr>
         </React.Fragment>
