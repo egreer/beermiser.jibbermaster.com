@@ -212,7 +212,7 @@ export class Home extends Component {
 
   rebuildBrew = (brewId: string): Brew => {
     const { stored } = this.state;
-    const sizes = stored.filter(brewSize => brewSize.brewId == brewId);
+    const sizes = stored.filter(brewSize => brewSize.brewId === brewId);
     const brew: Brew = {
       id: brewId,
       name: sizes[0].name,
@@ -284,7 +284,8 @@ export class Home extends Component {
                     type="select"
                     name="alcohol_unit"
                     value={alcohol_unit}
-                    className={"ml-2"}
+                    className="rounded-right"
+                    style={{ borderRadius: 0 }}
                     onChange={this.handleChange}
                   >
                     <option>APV</option>
@@ -346,7 +347,7 @@ export class Home extends Component {
   renderSizes = (sizes: Array<any>) => {
     return sizes?.map((v, i) => (
       <FormGroup row key={i}>
-        <Col xs={{ size: 12 }} sm={6} className={"mb-3 mb-sm-0"}>
+        <Col xs={{ size: 6 }} className={"mb-3 mb-sm-0"}>
           <InputGroup>
             <Input
               type="number"
@@ -361,7 +362,8 @@ export class Home extends Component {
                 type="select"
                 name="volume_unit"
                 value={v.volume_unit}
-                className={"ml-2"}
+                className="rounded-right"
+                style={{ borderRadius: 0 }}
                 onChange={e => this.handleVolumeChange(e, v.id)}
               >
                 <option>Oz</option>
@@ -371,7 +373,7 @@ export class Home extends Component {
             </InputGroupAddon>
           </InputGroup>
         </Col>
-        <Col xs={{ size: 10 }} sm={4} className={"mb-3 mb-sm-0 pr-1"}>
+        <Col xs={{ size: 4 }} className={"mb-3 mb-sm-0 pr-1"}>
           <InputGroup>
             <Input
               type="number"
@@ -385,7 +387,7 @@ export class Home extends Component {
             <InputGroupAddon addonType="append">$</InputGroupAddon>
           </InputGroup>
         </Col>
-        <Col>
+        <Col xs={{ size: 2 }}>
           <Button
             color="danger"
             block
@@ -402,12 +404,12 @@ export class Home extends Component {
   renderCalculations = (brew: Brew) => {
     return (
       <Alert color="success" className="calculations">
-        {brew.sizes.map(s => this.renderCalculation(s))}
+        {brew.sizes.map((s, i) => this.renderCalculation(s, i))}
       </Alert>
     );
   };
 
-  renderCalculation = (size: Size) => {
+  renderCalculation = (size: Size, index: number) => {
     if (size) {
       const {
         calculation,
@@ -459,7 +461,7 @@ export class Home extends Component {
       }
 
       return (
-        <Row>
+        <Row key={index}>
           <Col xs={6} sm={3}>
             <h5>
               {volume} {volume_unit}
