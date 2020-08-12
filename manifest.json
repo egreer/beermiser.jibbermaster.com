@@ -1,23 +1,28 @@
 {
   "name": "Jibbermaster's BeerMiser",
   "short_name": "BeerMiser",
+  "description": "A alcohol and price content calculator for the budget concious drinker.",
   "start_url": ".",
   "lang": "en-US",
+  "default_locale": "en",
   "display": "fullscreen",
   "orientation": "any",
-  "theme_color": "black",
+  "theme_color": "#000000",
   "background_color": "#17a2b8",
   "icons": [
     {
       "src": "./icon/beer-64.png",
+      "type": "image/png",
       "sizes": "64x64"
     },
     {
       "src": "./icon/beer-128.png",
+      "type": "image/png",
       "sizes": "128x128"
     },
     {
       "src": "./icon/beer-256.png",
+      "type": "image/png",
       "sizes": "256x256"
     }
   ]
