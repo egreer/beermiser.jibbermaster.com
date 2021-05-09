@@ -6,15 +6,12 @@ import {
   ButtonGroup,
   Col,
   Form,
-  FormGroup,
-  Input,
   InputGroup,
-  InputGroupAddon,
   Row,
   Table
-} from "reactstrap";
+} from "react-bootstrap";
 import { assign, set, isFunction, cloneDeep, remove, orderBy } from "lodash";
-import store from "store";
+import store from "store/dist/store.modern";
 import uuidv4 from "uuid/v4";
 import { Size, Brew } from "../../models/brew";
 import { Confirm } from "../../confirm/Confirm";
@@ -255,10 +252,10 @@ export class Home extends Component {
         </Helmet>
         <h1 className="text-center">BeerMiser</h1>
         <Form className="mt-4" autoComplete={"off"}>
-          <FormGroup row>
+          <Form.Group as={Row}>
             <Col sm={12}>
               <InputGroup>
-                <Input
+                <Form.Control
                   type="text"
                   name="name"
                   placeholder="Name"
@@ -267,12 +264,12 @@ export class Home extends Component {
                 />
               </InputGroup>
             </Col>
-          </FormGroup>
+          </Form.Group>
 
-          <FormGroup row>
+          <Form.Group as={Row}>
             <Col sm={12}>
               <InputGroup>
-                <Input
+                <Form.Control
                   type="number"
                   name="alcohol"
                   placeholder="Alcohol"
@@ -280,9 +277,9 @@ export class Home extends Component {
                   onChange={this.handleChange}
                   min={0}
                 />
-                <InputGroupAddon addonType="append">
-                  <Input
-                    type="select"
+                <InputGroup.Append>
+                  <Form.Control
+                    as="select"
                     name="alcohol_unit"
                     value={alcohol_unit}
                     className="rounded-right"
@@ -291,17 +288,17 @@ export class Home extends Component {
                   >
                     <option>APV</option>
                     <option>ABW</option>
-                  </Input>
-                </InputGroupAddon>
+                  </Form.Control>
+                </InputGroup.Append>
               </InputGroup>
             </Col>
-          </FormGroup>
+          </Form.Group>
 
           {this.renderSizes(sizes)}
 
           <Row>
-            <Col sm={{ size: 6, offset: 6 }}>
-              <Button block onClick={this.addSize}>
+            <Col sm={{ span: 6, offset: 6 }}>
+              <Button block variant="secondary" onClick={this.addSize}>
                 Add Size
               </Button>
             </Col>
@@ -316,8 +313,8 @@ export class Home extends Component {
           </Row>
 
           <Row>
-            <Col sm={{ size: 6, offset: 6 }}>
-              <Button block color="success" onClick={this.saveCurrent}>
+            <Col sm={{ span: 6, offset: 6 }}>
+              <Button block variant="success" onClick={this.saveCurrent}>
                 Save
               </Button>
             </Col>
@@ -331,7 +328,7 @@ export class Home extends Component {
         </Row>
         {
           // <div className="pt-5">
-          //   <Button block color="danger" onClick={this.reCalculateAll}>
+          //   <Button block variant="danger" onClick={this.reCalculateAll}>
           //     reCalculateAll
           //   </Button>
           // </div>
@@ -352,10 +349,10 @@ export class Home extends Component {
 
   renderSizes = (sizes: Array<any>) => {
     return sizes?.map((v, i) => (
-      <FormGroup row key={i}>
-        <Col xs={{ size: 6 }} className={"mb-3 mb-sm-0"}>
+      <Form.Group as={Row} key={i}>
+        <Col xs={{ span: 6 }} className={"mb-3 mb-sm-0"}>
           <InputGroup>
-            <Input
+            <Form.Control
               type="number"
               name="volume"
               placeholder="Volume"
@@ -363,9 +360,9 @@ export class Home extends Component {
               onChange={e => this.handleVolumeChange(e, v.id)}
               min={0}
             />
-            <InputGroupAddon addonType="append">
-              <Input
-                type="select"
+            <InputGroup.Append>
+              <Form.Control
+                as="select"
                 name="volume_unit"
                 value={v.volume_unit}
                 className="rounded-right"
@@ -375,13 +372,13 @@ export class Home extends Component {
                 <option>Oz</option>
                 <option>mL</option>
                 <option>L</option>
-              </Input>
-            </InputGroupAddon>
+              </Form.Control>
+            </InputGroup.Append>
           </InputGroup>
         </Col>
-        <Col xs={{ size: 4 }} className={"mb-3 mb-sm-0 pr-1"}>
+        <Col xs={{ span: 4 }} className={"mb-3 mb-sm-0 pr-1"}>
           <InputGroup>
-            <Input
+            <Form.Control
               type="number"
               name="price"
               placeholder="Price"
@@ -390,12 +387,14 @@ export class Home extends Component {
               min={0}
               step={0.01}
             />
-            <InputGroupAddon addonType="append">$</InputGroupAddon>
+            <InputGroup.Append>
+              <InputGroup.Text>$</InputGroup.Text>
+            </InputGroup.Append>
           </InputGroup>
         </Col>
-        <Col xs={{ size: 2 }}>
+        <Col xs={{ span: 2 }}>
           <Button
-            color="danger"
+            variant="danger"
             block
             disabled={sizes.length <= 1}
             onClick={() => this.removeActiveBrewSize(v.id)}
@@ -403,13 +402,13 @@ export class Home extends Component {
             <i className="fa fa-trash"></i>
           </Button>
         </Col>
-      </FormGroup>
+      </Form.Group>
     ));
   };
 
   renderCalculations = (brew: Brew) => {
     return (
-      <Alert color="success" className="calculations">
+      <Alert variant="success" className="calculations">
         {brew.sizes.map((s, i) => this.renderCalculation(s, i))}
       </Alert>
     );
@@ -479,7 +478,7 @@ export class Home extends Component {
     }
 
     //return; <></>;
-    //   <Alert color="success" style={{ opacity: 0.3 }}>
+    //   <Alert variant="success" style={{ opacity: 0.3 }}>
     //     <h5>Calculating....</h5>
     //   </Alert>
     // );
@@ -494,11 +493,15 @@ export class Home extends Component {
             <td className="align-middle text-left">
               <div className="mb-2">{brewSize.name}</div>
               <ButtonGroup>
-                <Button onClick={() => this.editBrew(brewSize)} size={"sm"}>
+                <Button
+                  variant="secondary"
+                  onClick={() => this.editBrew(brewSize)}
+                  size={"sm"}
+                >
                   <i className="fa fa-edit px-1"></i>
                 </Button>
                 <Button
-                  color="danger"
+                  variant="danger"
                   onClick={() => this.removeBrewSize(brewSize.id)}
                   size={"sm"}
                 >
@@ -535,7 +538,7 @@ export class Home extends Component {
 
     return (
       rows.length > 0 && (
-        <Table dark={true} className="my-5" size={"sm"}>
+        <Table variant="dark" className="my-5" size="sm" hover>
           <thead>
             <tr>
               <th></th>
@@ -547,7 +550,6 @@ export class Home extends Component {
               <th className="noselect text-nowrap">
                 <sup>$</sup>/<sub>A</sub>
               </th>
-              <th></th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
