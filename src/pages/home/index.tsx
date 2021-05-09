@@ -106,8 +106,7 @@ export class Home extends Component {
     console.log("size", size);
     const brewSize = assign({}, brew, size);
     console.log("brewSize", brewSize);
-    delete brewSize.sizes;
-    assign(brewSize, { brewId: brew.id, id: size.id });
+    assign(brewSize, { brewId: brew.id, id: size.id, sizes: [] });
     return brewSize;
   };
 
