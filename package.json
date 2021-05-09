@@ -19,6 +19,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "react": "^16.14.0",
+    "react-bootstrap": "^1.5.2",
     "react-dom": "^16.14.0",
     "react-helmet-async": "^1.0.9",
     "react-router": "^5.2.0",

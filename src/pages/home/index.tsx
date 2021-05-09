@@ -17,6 +17,7 @@ import { assign, set, isFunction, cloneDeep, remove, orderBy } from "lodash";
 import store from "store";
 import uuidv4 from "uuid/v4";
 import { Size, Brew } from "../../models/brew";
+import { Confirm } from "../../confirm/Confirm";
 
 const INITIAL_SIZE: Size = {
   id: uuidv4(),
@@ -336,9 +337,14 @@ export class Home extends Component {
           // </div>
         }
         <div className="pt-5">
-          <Button block color="danger" onClick={this.reset}>
-            Reset
-          </Button>
+          <Confirm
+            onConfirm={this.reset}
+            triggerText="Reset"
+            confirmText="Reset"
+            headerText="Reset Brews?"
+            confirmVariant="danger"
+            triggerButtonParams={{ block: true, variant: "danger" }}
+          />
         </div>
       </div>
     );
