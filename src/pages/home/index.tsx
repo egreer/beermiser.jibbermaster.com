@@ -312,7 +312,7 @@ export class Home extends Component {
 
           {this.renderSizes(sizes)}
 
-          <Row>
+          <Row className="my-4">
             <Col sm={{ span: 6, offset: 6 }}>
               <Button block variant="secondary" onClick={this.addSize}>
                 Add Size
@@ -320,7 +320,7 @@ export class Home extends Component {
             </Col>
           </Row>
 
-          <Row>
+          <Row className="my-4">
             <Col>
               <div className="text-center my-2">
                 {this.renderCalculations(brew)}
@@ -328,7 +328,7 @@ export class Home extends Component {
             </Col>
           </Row>
 
-          <Row>
+          <Row className="my-4">
             <Col sm={{ span: 6, offset: 6 }}>
               <Button
                 block
@@ -344,7 +344,7 @@ export class Home extends Component {
 
         <Row>
           <Col>
-            <div className="text-center my-2">{this.renderResults()}</div>
+            <div className="text-center">{this.renderResults()}</div>
           </Col>
         </Row>
         {
@@ -559,7 +559,7 @@ export class Home extends Component {
 
     return (
       rows.length > 0 && (
-        <Table variant="dark" className="my-5" size="sm" hover>
+        <Table variant="dark" className="my-4" size="sm" hover>
           <thead>
             <tr>
               <th></th>
