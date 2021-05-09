@@ -10,7 +10,15 @@ import {
   Row,
   Table
 } from "react-bootstrap";
-import { assign, set, isFunction, cloneDeep, remove, orderBy } from "lodash";
+import {
+  assign,
+  set,
+  isFunction,
+  cloneDeep,
+  remove,
+  orderBy,
+  some
+} from "lodash";
 import store from "store/dist/store.modern";
 import uuidv4 from "uuid/v4";
 import { Size, Brew } from "../../models/brew";
@@ -78,6 +86,12 @@ export class Home extends Component {
       return v;
     });
     this.persistState(brew, this.updateCalculation);
+  };
+
+  currentValid = () => {
+    const { brew } = this.state;
+    const hasSize = some(brew.sizes, (s: Size) => s.volume || s.price);
+    return brew.name || brew.alcohol || hasSize;
   };
 
   saveCurrent = () => {
@@ -202,6 +216,9 @@ export class Home extends Component {
   };
 
   editBrew = (brewSize: any) => {
+    if (this.currentValid()) {
+      this.saveCurrent();
+    }
     const brew = this.rebuildBrew(brewSize.brewId);
     this.persistState({ brew });
     this.removeBrew(brew.id);
@@ -313,7 +330,12 @@ export class Home extends Component {
 
           <Row>
             <Col sm={{ span: 6, offset: 6 }}>
-              <Button block variant="success" onClick={this.saveCurrent}>
+              <Button
+                block
+                variant="success"
+                onClick={this.saveCurrent}
+                disabled={!this.currentValid()}
+              >
                 Save
               </Button>
             </Col>
