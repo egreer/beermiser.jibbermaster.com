@@ -17,7 +17,8 @@ import {
   cloneDeep,
   remove,
   orderBy,
-  some
+  some,
+  last
 } from "lodash";
 import store from "store/dist/store.modern";
 import uuidv4 from "uuid/v4";
@@ -246,6 +247,7 @@ export class Home extends Component {
     const { brew } = this.state;
     const newSize = cloneDeep(INITIAL_SIZE);
     newSize.id = uuidv4();
+    newSize.volume_unit = last(brew.sizes)?.volume_unit || newSize.volume_unit;
     brew.sizes.push(newSize);
     this.persistState({ brew });
   };
