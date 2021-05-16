@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Helmet } from "react-helmet-async";
 import {
-  Alert,
   Button,
   ButtonGroup,
   Col,
@@ -268,7 +267,7 @@ export class Home extends Component {
             href={process.env.PUBLIC_URL + "/manifest.json"}
           />
         </Helmet>
-        <h1 className="text-center">BeerMiser</h1>
+        <h1 className="text-center pt-2">BeerMiser</h1>
         <Form className="mt-4" autoComplete={"off"}>
           <Form.Group as={Row}>
             <Col sm={12}>
@@ -356,7 +355,7 @@ export class Home extends Component {
           //   </Button>
           // </div>
         }
-        <div className="pt-5">
+        <div className="pt-5 pb-3">
           <Confirm
             onConfirm={this.reset}
             triggerText="Reset"
@@ -373,7 +372,7 @@ export class Home extends Component {
   renderSizes = (sizes: Array<any>) => {
     return sizes?.map((v, i) => (
       <Form.Group as={Row} key={i}>
-        <Col xs={{ span: 6 }} className={"mb-3 mb-sm-0"}>
+        <Col xs={{ span: 6 }}>
           <InputGroup>
             <Form.Control
               type="number"
@@ -399,7 +398,7 @@ export class Home extends Component {
             </InputGroup.Append>
           </InputGroup>
         </Col>
-        <Col xs={{ span: 4 }} className={"mb-3 mb-sm-0 pr-1"}>
+        <Col xs={{ span: 4 }} className={"pr-1"}>
           <InputGroup>
             <Form.Control
               type="number"
@@ -431,80 +430,72 @@ export class Home extends Component {
 
   renderCalculations = (brew: Brew) => {
     return (
-      <Alert variant="success" className="calculations">
-        {brew.sizes.map((s, i) => this.renderCalculation(s, i))}
-      </Alert>
+      <Table
+        variant="success"
+        className="my-4 rounded"
+        size="sm"
+        hover
+        striped
+        borderless
+        responsive
+      >
+        <thead>
+          <tr>
+            <th></th>
+            <th className="noselect text-nowrap">
+              <sup>$</sup>/<sub>oz</sub>
+            </th>
+            <th className="noselect text-nowrap">Alc</th>
+            <th className="noselect text-nowrap">
+              <sup>$</sup>/<sub>A</sub>
+            </th>
+          </tr>
+        </thead>
+        <tbody>{brew.sizes.map((s, i) => this.renderCalculation(s, i))}</tbody>
+      </Table>
     );
   };
 
   renderCalculation = (size: Size, index: number) => {
     if (size) {
-      const {
-        calculation,
-        apv_calculation,
-        ppv_calculation,
-        volume,
-        volume_unit
-      } = size;
-
-      let cols = (
-        <Col xs={6} sm={9} style={{ opacity: 0.3 }}>
-          <h5>Calculating....</h5>
-        </Col>
-      );
-
-      if (calculation || apv_calculation || ppv_calculation) {
-        cols = (
-          <>
-            <Col xs={6} sm={3}>
-              {calculation && (
-                <h5>
-                  {calculation.toFixed(3)}
-                  <small className="noselect px-1 text-nowrap">
-                    <sup>$</sup>/<sub>A</sub>
-                  </small>
-                </h5>
-              )}
-            </Col>
-            <Col xs={6} sm={3}>
-              {apv_calculation && (
-                <h5>
-                  {apv_calculation.toFixed(3)}
-                  <small className="noselect px-1">Alc</small>
-                </h5>
-              )}
-            </Col>
-            <Col xs={6} sm={3}>
-              {ppv_calculation && (
-                <h5>
-                  {ppv_calculation.toFixed(3)}
-                  <small className="noselect px-1">
-                    <sup>$</sup>/<sub>oz</sub>
-                  </small>
-                </h5>
-              )}
-            </Col>
-          </>
-        );
-      }
+      const { volume, volume_unit } = size;
 
       return (
-        <Row key={index}>
-          <Col xs={6} sm={3}>
-            <h5>
-              {volume} {volume_unit}
-            </h5>
-          </Col>
-          {cols}
-        </Row>
+        <React.Fragment key={index}>
+          <tr>
+            <td className="align-middle">
+              <div>
+                <span className="mr-1">{volume}</span>
+                <small>{volume_unit}</small>
+              </div>
+            </td>
+            {this.renderCalculationColums(size) || (
+              <td colSpan={3}>Calculating....</td>
+            )}
+          </tr>
+        </React.Fragment>
       );
     }
+  };
 
-    //return; <></>;
-    //   <Alert variant="success" style={{ opacity: 0.3 }}>
-    //     <h5>Calculating....</h5>
-    //   </Alert>
-    // );
+  renderCalculationColums = (size: Size) => {
+    const { calculation, apv_calculation, ppv_calculation } = size;
+
+    if (calculation || apv_calculation || ppv_calculation) {
+      return (
+        <>
+          <td className="align-middle">
+            {ppv_calculation && ppv_calculation.toFixed(3)}
+          </td>
+          <td className="align-middle">
+            {apv_calculation && apv_calculation.toFixed(3)}
+          </td>
+          <td className="align-middle">
+            {calculation && calculation.toFixed(3)}
+          </td>
+        </>
+      );
+    }
   };
 
   renderResults = () => {
@@ -545,15 +536,7 @@ export class Home extends Component {
                 <small>{brewSize.volume_unit}</small>
               </div>
             </td>
-            <td className="align-middle">
-              {brewSize.ppv_calculation && brewSize.ppv_calculation.toFixed(3)}
-            </td>
-            <td className="align-middle">
-              {brewSize.apv_calculation && brewSize.apv_calculation.toFixed(3)}
-            </td>
-            <td className="align-middle">
-              {brewSize.calculation && brewSize.calculation.toFixed(3)}
-            </td>
+            {this.renderCalculationColums(brewSize)}
           </tr>
         </React.Fragment>
       );
@@ -561,7 +544,7 @@ export class Home extends Component {
 
     return (
       rows.length > 0 && (
-        <Table variant="dark" className="my-4" size="sm" hover>
+        <Table variant="dark" className="my-4" size="sm" hover responsive>
           <thead>
             <tr>
               <th></th>
