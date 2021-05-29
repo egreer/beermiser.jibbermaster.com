@@ -315,7 +315,12 @@ export class Home extends Component {
 
           <Row className="my-4">
             <Col sm={{ span: 6, offset: 6 }}>
-              <Button block variant="secondary" onClick={this.addSize}>
+              <Button
+                block
+                variant="secondary"
+                onClick={this.addSize}
+                aria-label={"Add Brew Size"}
+              >
                 Add Size
               </Button>
             </Col>
@@ -336,6 +341,7 @@ export class Home extends Component {
                 variant="success"
                 onClick={this.saveCurrent}
                 disabled={!this.currentValid()}
+                aria-label={"Save Current Brew"}
               >
                 Save
               </Button>
@@ -420,6 +426,7 @@ export class Home extends Component {
             block
             disabled={sizes.length <= 1}
             onClick={() => this.removeActiveBrewSize(v.id)}
+            aria-label={"Remove Brew Size"}
           >
             <i className="fa fa-trash"></i>
           </Button>
@@ -511,6 +518,7 @@ export class Home extends Component {
                   variant="secondary"
                   onClick={() => this.editBrew(brewSize)}
                   size={"sm"}
+                  aria-label={`Edit ${brewSize.name}`}
                 >
                   <i className="fa fa-edit px-1"></i>
                 </Button>
@@ -518,6 +526,7 @@ export class Home extends Component {
                   variant="danger"
                   onClick={() => this.removeBrewSize(brewSize.id)}
                   size={"sm"}
+                  aria-label={`Remove ${brewSize.name}`}
                 >
                   <i className="fa fa-times px-1"></i>
                 </Button>

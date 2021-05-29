@@ -49,18 +49,32 @@ export const Confirm = ({
         {bodyText && body}
         <Modal.Footer>
           <Col>
-            <Button variant="secondary" onClick={() => close(false)} block>
+            <Button
+              variant="secondary"
+              aria-label="Close Confirmation Modal"
+              onClick={() => close(false)}
+              block
+            >
               Close
             </Button>
           </Col>
           <Col>
-            <Button variant={confirmVariant} onClick={() => close(true)} block>
+            <Button
+              variant={confirmVariant}
+              aria-label={confirmText}
+              onClick={() => close(true)}
+              block
+            >
               {confirmText}
             </Button>
           </Col>
         </Modal.Footer>
       </Modal>
-      <Button onClick={() => setOpen(true)} {...triggerButtonParams}>
+      <Button
+        onClick={() => setOpen(true)}
+        aria-label={triggerText}
+        {...triggerButtonParams}
+      >
         {triggerText}
       </Button>
     </>
