@@ -23,6 +23,8 @@ import store from "store/dist/store.modern";
 import uuidv4 from "uuid/v4";
 import { Size, Brew } from "../../models/brew";
 import { Confirm } from "../../confirm/Confirm";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const INITIAL_SIZE: Size = {
   id: uuidv4(),
@@ -428,7 +430,7 @@ export class Home extends Component {
             onClick={() => this.removeActiveBrewSize(v.id)}
             aria-label={"Remove Brew Size"}
           >
-            <i className="fa fa-trash"></i>
+            <FontAwesomeIcon icon={faTrash} />
           </Button>
         </Col>
       </Form.Group>
@@ -520,7 +522,12 @@ export class Home extends Component {
                   size={"sm"}
                   aria-label={`Edit ${brewSize.name}`}
                 >
-                  <i className="fa fa-edit px-1"></i>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className="px-1"
+                    fixedWidth
+                    size="lg"
+                  />
                 </Button>
                 <Button
                   variant="danger"
@@ -528,7 +535,12 @@ export class Home extends Component {
                   size={"sm"}
                   aria-label={`Remove ${brewSize.name}`}
                 >
-                  <i className="fa fa-times px-1"></i>
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className="px-1"
+                    fixedWidth
+                    size="lg"
+                  />
                 </Button>
               </ButtonGroup>
             </td>
