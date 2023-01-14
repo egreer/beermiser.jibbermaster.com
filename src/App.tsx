@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "./App.scss";
 
@@ -28,9 +28,9 @@ class App extends Component {
         <HelmetProvider>
           <Helmet titleTemplate="%s - Jibbermaster" />
           <div className="app text-light bg-dark col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
-            <Switch>
-              <Route path="/" exact render={props => <Home {...props} />} />
-            </Switch>
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
           </div>
         </HelmetProvider>
       </BrowserRouter>

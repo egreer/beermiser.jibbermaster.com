@@ -20,7 +20,7 @@ import {
   last
 } from "lodash";
 import store from "store/dist/store.modern";
-import uuidv4 from "uuid/v4";
+import { v4 as uuidv4 } from "uuid";
 import { Size, Brew } from "../../models/brew";
 import { Confirm } from "../../confirm/Confirm";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -271,7 +271,7 @@ export class Home extends Component {
         </Helmet>
         <h1 className="text-center pt-2">BeerMiser</h1>
         <Form className="mt-4" autoComplete={"off"}>
-          <Form.Group as={Row}>
+          <Form.Group as={Row} className="mb-3">
             <Col sm={12}>
               <InputGroup>
                 <Form.Control
@@ -285,7 +285,7 @@ export class Home extends Component {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row}>
+          <Form.Group as={Row} className="mb-3">
             <Col sm={12}>
               <InputGroup>
                 <Form.Control
@@ -296,19 +296,18 @@ export class Home extends Component {
                   onChange={this.handleChange}
                   min={0}
                 />
-                <InputGroup.Append>
-                  <Form.Control
-                    as="select"
-                    name="alcohol_unit"
-                    value={alcohol_unit}
-                    className="rounded-right"
-                    style={{ borderRadius: 0 }}
-                    onChange={this.handleChange}
-                  >
-                    <option>APV</option>
-                    <option>ABW</option>
-                  </Form.Control>
-                </InputGroup.Append>
+
+                <Form.Control
+                  as="select"
+                  name="alcohol_unit"
+                  value={alcohol_unit}
+                  className="form-select rounded-end"
+                  style={{ flexGrow: 0.15 }}
+                  onChange={this.handleChange}
+                >
+                  <option>APV</option>
+                  <option>ABW</option>
+                </Form.Control>
               </InputGroup>
             </Col>
           </Form.Group>
@@ -317,14 +316,15 @@ export class Home extends Component {
 
           <Row className="my-4">
             <Col sm={{ span: 6, offset: 6 }}>
-              <Button
-                block
-                variant="secondary"
-                onClick={this.addSize}
-                aria-label={"Add Brew Size"}
-              >
-                Add Size
-              </Button>
+              <div className="d-grid gap-2">
+                <Button
+                  variant="secondary"
+                  onClick={this.addSize}
+                  aria-label={"Add Brew Size"}
+                >
+                  Add Size
+                </Button>
+              </div>
             </Col>
           </Row>
 
@@ -338,15 +338,16 @@ export class Home extends Component {
 
           <Row className="my-4">
             <Col sm={{ span: 6, offset: 6 }}>
-              <Button
-                block
-                variant="success"
-                onClick={this.saveCurrent}
-                disabled={!this.currentValid()}
-                aria-label={"Save Current Brew"}
-              >
-                Save
-              </Button>
+              <div className="d-grid gap-2">
+                <Button
+                  variant="success"
+                  onClick={this.saveCurrent}
+                  disabled={!this.currentValid()}
+                  aria-label={"Save Current Brew"}
+                >
+                  Save
+                </Button>
+              </div>
             </Col>
           </Row>
         </Form>
@@ -370,7 +371,7 @@ export class Home extends Component {
             confirmText="Reset"
             headerText="Reset Brews?"
             confirmVariant="danger"
-            triggerButtonParams={{ block: true, variant: "danger" }}
+            triggerButtonParams={{ variant: "danger" }}
           />
         </div>
       </div>
@@ -379,7 +380,7 @@ export class Home extends Component {
 
   renderSizes = (sizes: Array<any>) => {
     return sizes?.map((v, i) => (
-      <Form.Group as={Row} key={i}>
+      <Form.Group as={Row} className="mb-3" key={i}>
         <Col xs={{ span: 6 }}>
           <InputGroup>
             <Form.Control
@@ -390,23 +391,22 @@ export class Home extends Component {
               onChange={e => this.handleVolumeChange(e, v.id)}
               min={0}
             />
-            <InputGroup.Append>
-              <Form.Control
-                as="select"
-                name="volume_unit"
-                value={v.volume_unit}
-                className="rounded-right"
-                style={{ borderRadius: 0 }}
-                onChange={e => this.handleVolumeChange(e, v.id)}
-              >
-                <option>Oz</option>
-                <option>mL</option>
-                <option>L</option>
-              </Form.Control>
-            </InputGroup.Append>
+
+            <Form.Control
+              as="select"
+              name="volume_unit"
+              value={v.volume_unit}
+              className="form-select rounded-end"
+              style={{ flexGrow: 0.15 }}
+              onChange={e => this.handleVolumeChange(e, v.id)}
+            >
+              <option>Oz</option>
+              <option>mL</option>
+              <option>L</option>
+            </Form.Control>
           </InputGroup>
         </Col>
-        <Col xs={{ span: 4 }} className={"pr-1"}>
+        <Col xs={{ span: 4 }} className={"pe-1"}>
           <InputGroup>
             <Form.Control
               type="number"
@@ -417,21 +417,21 @@ export class Home extends Component {
               min={0}
               step={0.01}
             />
-            <InputGroup.Append>
-              <InputGroup.Text>$</InputGroup.Text>
-            </InputGroup.Append>
+
+            <InputGroup.Text>$</InputGroup.Text>
           </InputGroup>
         </Col>
         <Col xs={{ span: 2 }}>
-          <Button
-            variant="danger"
-            block
-            disabled={sizes.length <= 1}
-            onClick={() => this.removeActiveBrewSize(v.id)}
-            aria-label={"Remove Brew Size"}
-          >
-            <FontAwesomeIcon icon={faTrash} />
-          </Button>
+          <div className="d-grid gap-2">
+            <Button
+              variant="danger"
+              disabled={sizes.length <= 1}
+              onClick={() => this.removeActiveBrewSize(v.id)}
+              aria-label={"Remove Brew Size"}
+            >
+              <FontAwesomeIcon icon={faTrash} />
+            </Button>
+          </div>
         </Col>
       </Form.Group>
     ));
@@ -474,7 +474,7 @@ export class Home extends Component {
           <tr>
             <td className="align-middle">
               <div>
-                <span className="mr-1">{volume}</span>
+                <span className="me-1">{volume}</span>
                 <small>{volume_unit}</small>
               </div>
             </td>
@@ -513,7 +513,7 @@ export class Home extends Component {
       return (
         <React.Fragment key={brewSize.id}>
           <tr>
-            <td className="align-middle text-left">
+            <td className="align-middle text-start">
               <div className="mb-2">{brewSize.name}</div>
               <ButtonGroup>
                 <Button
@@ -544,16 +544,16 @@ export class Home extends Component {
                 </Button>
               </ButtonGroup>
             </td>
-            <td className="align-middle text-left">
+            <td className="align-middle text-start">
               <div>
                 {brewSize.price && `$${parseFloat(brewSize.price).toFixed(2)}`}
               </div>
               <div>
-                <span className="mr-1">{brewSize.alcohol}</span>
+                <span className="me-1">{brewSize.alcohol}</span>
                 <small>{brewSize.alcohol_unit}</small>
               </div>
               <div>
-                <span className="mr-1">{brewSize.volume}</span>
+                <span className="me-1">{brewSize.volume}</span>
                 <small>{brewSize.volume_unit}</small>
               </div>
             </td>

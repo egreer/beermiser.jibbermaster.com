@@ -49,34 +49,38 @@ export const Confirm = ({
         {bodyText && body}
         <Modal.Footer>
           <Col>
-            <Button
-              variant="secondary"
-              aria-label="Close Confirmation Modal"
-              onClick={() => close(false)}
-              block
-            >
-              Close
-            </Button>
+            <div className="d-grid gap-2">
+              <Button
+                variant="secondary"
+                aria-label="Close Confirmation Modal"
+                onClick={() => close(false)}
+              >
+                Close
+              </Button>
+            </div>
           </Col>
           <Col>
-            <Button
-              variant={confirmVariant}
-              aria-label={confirmText}
-              onClick={() => close(true)}
-              block
-            >
-              {confirmText}
-            </Button>
+            <div className="d-grid gap-2">
+              <Button
+                variant={confirmVariant}
+                aria-label={confirmText}
+                onClick={() => close(true)}
+              >
+                {confirmText}
+              </Button>
+            </div>
           </Col>
         </Modal.Footer>
       </Modal>
-      <Button
-        onClick={() => setOpen(true)}
-        aria-label={triggerText}
-        {...triggerButtonParams}
-      >
-        {triggerText}
-      </Button>
+      <div className="d-grid gap-2">
+        <Button
+          onClick={() => setOpen(true)}
+          aria-label={triggerText}
+          {...triggerButtonParams}
+        >
+          {triggerText}
+        </Button>
+      </div>
     </>
   );
 };
