@@ -22,7 +22,7 @@ export const Confirm = ({
   confirmVariant = "primary"
 }: ConfirmProps) => {
   const [open, setOpen] = useState(false);
-  const close = (confirmed: boolean) => {
+  const close = (confirmed: boolean = false) => {
     setOpen(false);
     if (confirmed) {
       onConfirm();
