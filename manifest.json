@@ -1,7 +1,7 @@
 {
   "name": "Jibbermaster's BeerMiser",
   "short_name": "BeerMiser",
-  "description": "A alcohol and price content calculator for the budget concious drinker.",
+  "description": "A alcohol and price content calculator for the budget conscious drinker.",
   "start_url": ".",
   "lang": "en-US",
   "default_locale": "en",
