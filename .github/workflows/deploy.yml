@@ -10,16 +10,15 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: NPM Setup
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version-file: ".nvmrc"
       - name: Install and Build
         run: |
           npm ci
           npm run build
-
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
         with:
