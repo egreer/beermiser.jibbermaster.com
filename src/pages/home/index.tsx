@@ -1,5 +1,9 @@
+import { faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { cloneDeep, isFunction, last, orderBy, remove, some } from "lodash";
+import assign from "lodash/assign";
+import set from "lodash/set";
 import React, { Component } from "react";
-import { Helmet } from "react-helmet-async";
 import {
   Button,
   ButtonGroup,
@@ -7,24 +11,13 @@ import {
   Form,
   InputGroup,
   Row,
-  Table
+  Table,
 } from "react-bootstrap";
-import {
-  assign,
-  set,
-  isFunction,
-  cloneDeep,
-  remove,
-  orderBy,
-  some,
-  last
-} from "lodash";
+import { Helmet } from "react-helmet-async";
 import store from "store/dist/store.modern";
 import { v4 as uuidv4 } from "uuid";
-import { Size, Brew } from "../../models/brew";
 import { Confirm } from "../../confirm/Confirm";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { Brew, Size } from "../../models/brew";
 
 const INITIAL_SIZE: Size = {
   id: uuidv4(),
@@ -33,7 +26,7 @@ const INITIAL_SIZE: Size = {
   price: "",
   calculation: null,
   apv_calculation: null,
-  ppv_calculation: null
+  ppv_calculation: null,
 };
 
 const INITIAL_BREW: Brew = {
@@ -41,7 +34,7 @@ const INITIAL_BREW: Brew = {
   name: "",
   alcohol: "",
   alcohol_unit: "APV",
-  sizes: [cloneDeep(INITIAL_SIZE)]
+  sizes: [cloneDeep(INITIAL_SIZE)],
 };
 
 const INITIAL_STATE: {
@@ -49,7 +42,7 @@ const INITIAL_STATE: {
   brew: Brew;
 } = {
   stored: [],
-  brew: cloneDeep(INITIAL_BREW)
+  brew: cloneDeep(INITIAL_BREW),
 };
 
 export class Home extends Component {
@@ -81,7 +74,7 @@ export class Home extends Component {
     console.log(event, id);
     const { brew } = this.state;
     const { sizes } = this.state.brew;
-    sizes.map(v => {
+    sizes.map((v) => {
       if (v.id === id) {
         set(v, event.target.name, event.target.value);
       }
@@ -101,7 +94,7 @@ export class Home extends Component {
     const { brew, stored } = this.state;
 
     brew.id = uuidv4();
-    brew.sizes.forEach(size => {
+    brew.sizes.forEach((size) => {
       size.id = uuidv4();
       stored.push(this.buildBrewSize(brew, size));
     });
@@ -112,7 +105,7 @@ export class Home extends Component {
           stored,
           ["calculation", "apv_calculation", "ppv_calculation"],
           ["asc", "desc", "asc"]
-        )
+        ),
       })
     );
   };
@@ -178,7 +171,7 @@ export class Home extends Component {
       assign(size, {
         calculation: localCalculation,
         apv_calculation: localAPVCalculation,
-        ppv_calculation: localPPVCalculation
+        ppv_calculation: localPPVCalculation,
       });
     });
 
@@ -187,7 +180,7 @@ export class Home extends Component {
 
   reCalculateAll = () => {
     const { stored } = this.state;
-    stored.forEach(storedBrew => {
+    stored.forEach((storedBrew) => {
       assign(storedBrew, this.calculateCalculations(storedBrew));
     });
     this.persistState({
@@ -195,25 +188,25 @@ export class Home extends Component {
         stored,
         ["calculation", "apv_calculation", "ppv_calculation"],
         ["asc", "desc", "asc"]
-      )
+      ),
     });
   };
 
   removeActiveBrewSize = (sizeId: string) => {
     const { brew } = this.state;
-    remove(brew.sizes, size => size.id === sizeId);
+    remove(brew.sizes, (size) => size.id === sizeId);
     this.persistState({ brew });
   };
 
   removeBrewSize = (id: string) => {
     const { stored } = this.state;
-    remove(stored, storedBrew => storedBrew.id === id);
+    remove(stored, (storedBrew) => storedBrew.id === id);
     this.persistState({ stored });
   };
 
   removeBrew = (id: string) => {
     const { stored } = this.state;
-    remove(stored, storedBrew => storedBrew.brewId === id);
+    remove(stored, (storedBrew) => storedBrew.brewId === id);
     this.persistState({ stored });
   };
 
@@ -228,15 +221,15 @@ export class Home extends Component {
 
   rebuildBrew = (brewId: string): Brew => {
     const { stored } = this.state;
-    const sizes = stored.filter(brewSize => brewSize.brewId === brewId);
+    const sizes = stored.filter((brewSize) => brewSize.brewId === brewId);
     const brew: Brew = {
       id: brewId,
       name: sizes[0].name,
       alcohol: sizes[0].alcohol,
       alcohol_unit: sizes[0].alcohol_unit,
-      sizes
+      sizes,
     };
-    sizes.forEach(s => {
+    sizes.forEach((s) => {
       delete s.name;
       delete s.alcohol;
       delete s.alcohol_unit;
@@ -388,7 +381,7 @@ export class Home extends Component {
               name="volume"
               placeholder="Volume"
               value={v.volume}
-              onChange={e => this.handleVolumeChange(e, v.id)}
+              onChange={(e) => this.handleVolumeChange(e, v.id)}
               min={0}
             />
 
@@ -398,7 +391,7 @@ export class Home extends Component {
               value={v.volume_unit}
               className="form-select rounded-end"
               style={{ flexGrow: 0.15 }}
-              onChange={e => this.handleVolumeChange(e, v.id)}
+              onChange={(e) => this.handleVolumeChange(e, v.id)}
             >
               <option>Oz</option>
               <option>mL</option>
@@ -413,7 +406,7 @@ export class Home extends Component {
               name="price"
               placeholder="Price"
               value={v.price}
-              onChange={e => this.handleVolumeChange(e, v.id)}
+              onChange={(e) => this.handleVolumeChange(e, v.id)}
               min={0}
               step={0.01}
             />
@@ -509,7 +502,7 @@ export class Home extends Component {
 
   renderResults = () => {
     const { stored } = this.state;
-    const rows = stored.map(brewSize => {
+    const rows = stored.map((brewSize) => {
       return (
         <React.Fragment key={brewSize.id}>
           <tr>

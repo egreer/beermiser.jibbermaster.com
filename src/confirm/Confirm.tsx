@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import { Button, ButtonProps, Col, Modal } from "react-bootstrap";
 
 export type ConfirmProps = {
@@ -19,7 +18,7 @@ export const Confirm = ({
   headerText = "Confirm?",
   bodyText,
   confirmText = "Save",
-  confirmVariant = "primary"
+  confirmVariant = "primary",
 }: ConfirmProps) => {
   const [open, setOpen] = useState(false);
   const close = (confirmed: boolean = false) => {

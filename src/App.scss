@@ -2,7 +2,9 @@
 @import "~bootstrap/scss/bootstrap";
 
 .text-shadow {
-  text-shadow: 0 0 25px $dark, 0 0 5px $black;
+  text-shadow:
+    0 0 25px $dark,
+    0 0 5px $black;
 }
 
 .noselect {

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
 import "./App.scss";
-
 import { Home } from "./pages/home";
 
 class App extends Component {
@@ -13,12 +11,12 @@ class App extends Component {
     displayText: false,
     displayImages: false,
     devTools: false,
-    displayGatherer: false
+    displayGatherer: false,
   };
 
   toggle = () => {
     this.setState({
-      isOpen: !this.state.isOpen
+      isOpen: !this.state.isOpen,
     });
   };
 
