@@ -44,7 +44,7 @@
     "@types/store": "^2.0.5",
     "@types/uuid": "^7.0.8",
     "gh-pages": "^2.2.0",
-    "husky": "^3.1.0",
+    "husky": "^9.0.1",
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^3.2.3",
     "pretty-quick": "^4.0.0",
@@ -67,7 +67,9 @@
     "deploy": "gh-pages -d build",
     "prettier": "prettier --cache --write 'src/**/*.{ts,js,tsx,jsx,css,scss}'",
     "prettier:nocache": "prettier --write 'src/**/*.{ts,js,tsx,jsx,css,scss}'",
-    "pretty-quick": "pretty-quick"
+    "pretty-quick": "pretty-quick",
+    "pretty-quick:staged": "pretty-quick --staged --pattern 'src/**/*.{ts,js,tsx,jsx,css,scss}'",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -77,10 +79,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
-  }
+  ]
 }
