@@ -48,7 +48,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^3.2.3",
     "pretty-quick": "^4.0.0",
-    "sass": "^1.71.0",
+    "sass": "^1.76.0",
     "typescript": "^3.9.10"
   },
   "overrides": {
