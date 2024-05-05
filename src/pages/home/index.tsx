@@ -257,10 +257,7 @@ export class Home extends Component {
     return (
       <div className="home">
         <Helmet title="BeerMiser">
-          <link
-            rel="manifest"
-            href={process.env.PUBLIC_URL + "/manifest.json"}
-          />
+          <link rel="manifest" href={"/manifest.json"} />
         </Helmet>
         <h1 className="text-center pt-2">BeerMiser</h1>
         <Form className="mt-4" autoComplete={"off"}>
