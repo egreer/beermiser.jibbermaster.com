@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Conserve your dollar",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/egreer/beermiser.jibbermaster.com.git"
@@ -27,7 +28,6 @@
     "react-helmet-async": "^2.0.4",
     "react-router": "^6.23.0",
     "react-router-dom": "^6.23.0",
-    "react-scripts": "5.0.1",
     "store": "^2.0.12",
     "uuid": "^9.0.1"
   },
@@ -41,25 +41,21 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/store": "^2.0.5",
     "@types/uuid": "^9.0.8",
+    "@vitejs/plugin-react": "^4.2.1",
     "gh-pages": "^6.1.1",
     "husky": "^9.0.11",
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4",
     "pretty-quick": "^4.0.0",
     "sass": "^1.76.0",
-    "typescript": "^3.9.10"
-  },
-  "overrides": {
-    "react-scripts": {
-      "@svgr/webpack": "8.1.0",
-      "postcss": "8.4.31",
-      "tailwindcss": "3.3.3"
-    }
+    "typescript": "^3.9.10",
+    "vite": "^5.2.11",
+    "vite-plugin-pwa": "^0.20.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "prettier": "prettier --cache --write 'src/**/*.{ts,js,tsx,jsx,css,scss}'",
