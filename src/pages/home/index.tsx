@@ -1,8 +1,13 @@
 import { faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { cloneDeep, isFunction, last, orderBy, remove, some } from "lodash";
 import assign from "lodash/assign";
+import cloneDeep from "lodash/cloneDeep";
+import isFunction from "lodash/isFunction";
+import last from "lodash/last";
+import orderBy from "lodash/orderBy";
+import remove from "lodash/remove";
 import set from "lodash/set";
+import some from "lodash/some";
 import React, { Component } from "react";
 import {
   Button,
