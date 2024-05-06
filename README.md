@@ -8,7 +8,7 @@ When at your favorite beer garden with lots of options and sizes enter your favo
 
 ---
 
-_Like what you see? Consider buying me a couple packs to help fuel this hobby and support future development by donating at [paypal.me/egreerme](https://www.paypal.me/egreerme)_
+_Like what you see? Consider buying me a beer to help support future development by donating at [paypal.me/egreerme](https://www.paypal.me/egreerme)_
 
 ---
 
