@@ -2,7 +2,13 @@
   "name": "beermiser.jibbermaster.com",
   "version": "0.1.0",
   "private": true,
-  "description": "Conserve your dollar",
+  "description": "A price and alcohol content calculator for the budget conscious drinker.",
+  "keywords": [
+    "beer",
+    "budget",
+    "calculator",
+    "pricing"
+  ],
   "homepage": "https://beermiser.jibbermaster.com",
   "bugs": {
     "url": "https://github.com/egreer/beermiser.jibbermaster.com/issues"
@@ -11,6 +17,12 @@
     "type": "git",
     "url": "git+https://github.com/egreer/beermiser.jibbermaster.com.git"
   },
+  "funding": [
+    {
+      "type": "individual",
+      "url": "https://www.paypal.me/egreerme"
+    }
+  ],
   "license": "ISC",
   "author": "egreer",
   "type": "module",
