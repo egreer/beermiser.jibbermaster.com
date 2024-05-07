@@ -37,7 +37,8 @@
     "pretty-quick": "pretty-quick",
     "pretty-quick:staged": "pretty-quick --staged --pattern 'src/**/*.{ts,js,tsx,jsx,css,scss}'",
     "serve": "vite preview",
-    "start": "vite"
+    "start": "vite",
+    "update-packages": "npx npm-check-updates -u"
   },
   "browserslist": [
     ">0.2%",
@@ -59,7 +60,7 @@
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-dom": "^18.3.1",
-    "react-helmet-async": "^2.0.4",
+    "react-helmet-async": "^2.0.5",
     "react-router": "^6.23.0",
     "react-router-dom": "^6.23.0",
     "store": "^2.0.12",
@@ -67,7 +68,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.1",
-    "@types/node": "^20.12.8",
+    "@types/node": "^20.12.10",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
@@ -88,8 +89,8 @@
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^3.2.4",
     "pretty-quick": "^4.0.0",
-    "sass": "^1.76.0",
-    "typescript": "^3.9.10",
+    "sass": "^1.77.0",
+    "typescript": "^5.4.5",
     "vite": "^5.2.11",
     "vite-plugin-pwa": "^0.20.0"
   }
