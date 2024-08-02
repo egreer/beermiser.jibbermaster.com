@@ -21,6 +21,7 @@ import {
 import { Helmet } from "react-helmet-async";
 import store from "store/dist/store.modern";
 import { v4 as uuidv4 } from "uuid";
+import { Footer } from "../../components/Footert";
 import { Confirm } from "../../confirm/Confirm";
 import { Brew, Size } from "../../models/brew";
 
@@ -369,6 +370,7 @@ export class Home extends Component {
             triggerButtonParams={{ variant: "danger" }}
           />
         </div>
+        <Footer></Footer>
       </div>
     );
   }
