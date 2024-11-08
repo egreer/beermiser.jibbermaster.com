@@ -12,6 +12,8 @@ export const Footer = () => {
             role="button"
             target="_blank"
             rel="noreferrer"
+            title="Explore source code at Github"
+            aria-label="Explore source code at Github"
           >
             <i className="fab fa-github"></i>
             <FontAwesomeIcon icon={faGithub}></FontAwesomeIcon>
@@ -22,6 +24,8 @@ export const Footer = () => {
             role="button"
             target="_blank"
             rel="noreferrer"
+            title="Donate at Paypal"
+            aria-label="Donate at Paypal"
           >
             <FontAwesomeIcon icon={faPaypal}></FontAwesomeIcon>
           </a>

@@ -300,6 +300,7 @@ export class Home extends Component {
                   className="form-select rounded-end"
                   style={{ flexGrow: 0.15 }}
                   onChange={this.handleChange}
+                  aria-label="Alcohol Unit"
                 >
                   <option>APV</option>
                   <option>ABW</option>
@@ -396,6 +397,7 @@ export class Home extends Component {
               className="form-select rounded-end"
               style={{ flexGrow: 0.15 }}
               onChange={(e) => this.handleVolumeChange(e, v.id)}
+              aria-label="Volume Unit"
             >
               <option>Oz</option>
               <option>mL</option>
