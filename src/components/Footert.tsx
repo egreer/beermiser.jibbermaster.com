@@ -15,7 +15,6 @@ export const Footer = () => {
             title="Explore source code at Github"
             aria-label="Explore source code at Github"
           >
-            <i className="fab fa-github"></i>
             <FontAwesomeIcon icon={faGithub}></FontAwesomeIcon>
           </a>
           <a
