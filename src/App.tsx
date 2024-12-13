@@ -1,5 +1,4 @@
 import { Component } from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.scss";
 import { Home } from "./pages/home";
@@ -23,14 +22,11 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <HelmetProvider>
-          <Helmet titleTemplate="%s - Jibbermaster" />
-          <div className="app text-light bg-dark col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
-            <Routes>
-              <Route path="/" element={<Home />} />
-            </Routes>
-          </div>
-        </HelmetProvider>
+        <div className="app text-light bg-dark col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+          <Routes>
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </div>
       </BrowserRouter>
     );
   }

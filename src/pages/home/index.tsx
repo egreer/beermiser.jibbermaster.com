@@ -18,7 +18,6 @@ import {
   Row,
   Table,
 } from "react-bootstrap";
-import { Helmet } from "react-helmet-async";
 import store from "store/dist/store.modern";
 import { v4 as uuidv4 } from "uuid";
 import { Footer } from "../../components/Footert";
@@ -262,9 +261,6 @@ export class Home extends Component {
 
     return (
       <div className="home">
-        <Helmet title="BeerMiser">
-          <link rel="manifest" href={"/manifest.json"} />
-        </Helmet>
         <h1 className="text-center pt-2">BeerMiser</h1>
         <Form className="mt-4" autoComplete={"off"}>
           <Form.Group as={Row} className="mb-3">
