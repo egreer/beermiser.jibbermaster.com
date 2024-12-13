@@ -23,6 +23,9 @@ updates:
         update-types:
         - "minor"
         - "patch"
+      react-router:
+        patterns:
+          - "react-router*"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
