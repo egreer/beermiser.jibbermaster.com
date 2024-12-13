@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 import "./App.scss";
 import { Home } from "./pages/home";
 
