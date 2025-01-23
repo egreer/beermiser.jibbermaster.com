@@ -6,6 +6,20 @@ export const Footer = () => {
       <hr></hr>
       <div className="container p-4">
         <section className="mb-4">
+          <p>
+            <em>
+              Like what you see? Consider buying me a beer to help support
+              future development by donating at{" "}
+              <a
+                href="https://www.paypal.me/egreerme"
+                target="_blank"
+                rel="noreferrer"
+                title="Buy me a beer!"
+              >
+                paypal.me/egreerme
+              </a>
+            </em>
+          </p>
           <a
             className="btn btn-outline-light btn-floating m-1"
             href="https://github.com/egreer/beermiser.jibbermaster.com"
