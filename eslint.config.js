@@ -2,7 +2,6 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import eslintPluginJsxA11y from "eslint-plugin-jsx-a11y";
 import lodash from "eslint-plugin-lodash";
 import unusedImports from "eslint-plugin-unused-imports";
 import path from "node:path";
