@@ -2,6 +2,7 @@ import { FlatCompat } from "@eslint/eslintrc";
 import js from "@eslint/js";
 import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
+import eslintPluginJsxA11y from "eslint-plugin-jsx-a11y";
 import lodash from "eslint-plugin-lodash";
 import unusedImports from "eslint-plugin-unused-imports";
 import path from "node:path";
@@ -18,8 +19,9 @@ const compat = new FlatCompat({
 export default [
   ...compat.extends(
     "eslint:recommended",
-    "plugin:lodash/recommended"
-    // "plugin:react-hooks/recommended"
+    "plugin:lodash/recommended",
+    "plugin:jsx-a11y/recommended",
+    "plugin:react-hooks/recommended"
   ),
   {
     plugins: {
@@ -39,6 +41,7 @@ export default [
     },
 
     rules: {
+      "no-undef": "off",
       "no-unused-vars": "off",
       "lodash/prefer-lodash-method": "off",
       "lodash/prefer-constant": "off",
@@ -59,12 +62,6 @@ export default [
 
       "no-restricted-imports": ["error"],
     },
-  },
-  {
     files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
-
-    rules: {
-      "no-undef": "off",
-    },
   },
 ];
