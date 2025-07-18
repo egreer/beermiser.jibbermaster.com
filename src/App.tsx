@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <div className="app text-light bg-dark col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+        <div className="app d-flex flex-column min-vh-100 text-light bg-dark col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
           <Routes>
             <Route path="/" element={<Home />} />
           </Routes>

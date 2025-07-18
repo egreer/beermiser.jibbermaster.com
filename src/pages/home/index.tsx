@@ -260,115 +260,117 @@ export class Home extends Component {
     const { name, alcohol, alcohol_unit, sizes } = brew;
 
     return (
-      <div className="home">
-        <h1 className="text-center pt-2">BeerMiser</h1>
-        <Form className="mt-4" autoComplete={"off"}>
-          <Form.Group as={Row} className="mb-3">
-            <Col sm={12}>
-              <InputGroup>
-                <Form.Control
-                  type="text"
-                  name="name"
-                  placeholder="Name"
-                  value={name}
-                  onChange={this.handleChange}
-                />
-              </InputGroup>
-            </Col>
-          </Form.Group>
+      <>
+        <div className="home flex-shrink-0 p-2">
+          <h1 className="text-center pt-2">BeerMiser</h1>
+          <Form className="mt-4" autoComplete={"off"}>
+            <Form.Group as={Row} className="mb-3">
+              <Col sm={12}>
+                <InputGroup>
+                  <Form.Control
+                    type="text"
+                    name="name"
+                    placeholder="Name"
+                    value={name}
+                    onChange={this.handleChange}
+                  />
+                </InputGroup>
+              </Col>
+            </Form.Group>
 
-          <Form.Group as={Row} className="mb-3">
-            <Col sm={12}>
-              <InputGroup>
-                <Form.Control
-                  type="number"
-                  name="alcohol"
-                  placeholder="Alcohol"
-                  value={alcohol}
-                  onChange={this.handleChange}
-                  min={0}
-                />
+            <Form.Group as={Row} className="mb-3">
+              <Col sm={12}>
+                <InputGroup>
+                  <Form.Control
+                    type="number"
+                    name="alcohol"
+                    placeholder="Alcohol"
+                    value={alcohol}
+                    onChange={this.handleChange}
+                    min={0}
+                  />
 
-                <Form.Control
-                  as="select"
-                  name="alcohol_unit"
-                  value={alcohol_unit}
-                  className="form-select rounded-end"
-                  style={{ flexGrow: 0.15 }}
-                  onChange={this.handleChange}
-                  aria-label="Alcohol Unit"
-                >
-                  <option>APV</option>
-                  <option>ABW</option>
-                </Form.Control>
-              </InputGroup>
-            </Col>
-          </Form.Group>
+                  <Form.Control
+                    as="select"
+                    name="alcohol_unit"
+                    value={alcohol_unit}
+                    className="form-select rounded-end"
+                    style={{ flexGrow: 0.15 }}
+                    onChange={this.handleChange}
+                    aria-label="Alcohol Unit"
+                  >
+                    <option>APV</option>
+                    <option>ABW</option>
+                  </Form.Control>
+                </InputGroup>
+              </Col>
+            </Form.Group>
 
-          {this.renderSizes(sizes)}
+            {this.renderSizes(sizes)}
 
-          <Row className="my-4">
-            <Col sm={{ span: 6, offset: 6 }}>
-              <div className="d-grid gap-2">
-                <Button
-                  variant="secondary"
-                  onClick={this.addSize}
-                  aria-label={"Add Brew Size"}
-                >
-                  Add Size
-                </Button>
-              </div>
-            </Col>
-          </Row>
+            <Row className="my-4">
+              <Col sm={{ span: 6, offset: 6 }}>
+                <div className="d-grid gap-2">
+                  <Button
+                    variant="secondary"
+                    onClick={this.addSize}
+                    aria-label={"Add Brew Size"}
+                  >
+                    Add Size
+                  </Button>
+                </div>
+              </Col>
+            </Row>
 
-          <Row className="my-4">
+            <Row className="my-4">
+              <Col>
+                <div className="text-center my-2">
+                  {this.renderCalculations(brew)}
+                </div>
+              </Col>
+            </Row>
+
+            <Row className="my-4">
+              <Col sm={{ span: 6, offset: 6 }}>
+                <div className="d-grid gap-2">
+                  <Button
+                    variant="success"
+                    onClick={this.saveCurrent}
+                    disabled={!this.currentValid()}
+                    aria-label={"Save Current Brew"}
+                  >
+                    Save
+                  </Button>
+                </div>
+              </Col>
+            </Row>
+          </Form>
+
+          <Row>
             <Col>
-              <div className="text-center my-2">
-                {this.renderCalculations(brew)}
-              </div>
+              <div className="text-center">{this.renderResults()}</div>
             </Col>
           </Row>
-
-          <Row className="my-4">
-            <Col sm={{ span: 6, offset: 6 }}>
-              <div className="d-grid gap-2">
-                <Button
-                  variant="success"
-                  onClick={this.saveCurrent}
-                  disabled={!this.currentValid()}
-                  aria-label={"Save Current Brew"}
-                >
-                  Save
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </Form>
-
-        <Row>
-          <Col>
-            <div className="text-center">{this.renderResults()}</div>
-          </Col>
-        </Row>
-        {
-          // <div className="pt-5">
-          //   <Button block variant="danger" onClick={this.reCalculateAll}>
-          //     reCalculateAll
-          //   </Button>
-          // </div>
-        }
-        <div className="pt-5 pb-3">
-          <Confirm
-            onConfirm={this.reset}
-            triggerText="Reset"
-            confirmText="Reset"
-            headerText="Reset Brews?"
-            confirmVariant="danger"
-            triggerButtonParams={{ variant: "danger" }}
-          />
+          {
+            // <div className="pt-5">
+            //   <Button block variant="danger" onClick={this.reCalculateAll}>
+            //     reCalculateAll
+            //   </Button>
+            // </div>
+          }
+          <div className="pt-5 pb-3">
+            <Confirm
+              onConfirm={this.reset}
+              triggerText="Reset"
+              confirmText="Reset"
+              headerText="Reset Brews?"
+              confirmVariant="danger"
+              triggerButtonParams={{ variant: "danger" }}
+            />
+          </div>
         </div>
         <Footer></Footer>
-      </div>
+      </>
     );
   }
 

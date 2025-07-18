@@ -2,7 +2,7 @@ import { faGithub, faPaypal } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 export const Footer = () => {
   return (
-    <footer className="bg-dark text-center text-white">
+    <footer className="mt-auto bg-dark text-center text-white">
       <hr></hr>
       <div className="container p-4">
         <section className="mb-4">
