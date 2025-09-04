@@ -24,12 +24,17 @@ updates:
       react-router:
         patterns:
           - "react-router*"
+          - "@types/react-router*"
       fortawesome:
         patterns:
           - "@fortawesome*"
       eslint:
         patterns:
           - "eslint*"
+      lodash:
+        patterns:
+          - "lodash"
+          - "@types/lodash"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
