@@ -475,7 +475,7 @@ export class Home extends Component {
                 <small>{volume_unit}</small>
               </div>
             </td>
-            {this.renderCalculationColums(size) || (
+            {this.renderCalculationColumns(size) || (
               <td colSpan={3}>Calculating....</td>
             )}
           </tr>
@@ -484,7 +484,7 @@ export class Home extends Component {
     }
   };
 
-  renderCalculationColums = (size: Size) => {
+  renderCalculationColumns = (size: Size) => {
     const { calculation, apv_calculation, ppv_calculation } = size;
 
     if (calculation || apv_calculation || ppv_calculation) {
@@ -554,7 +554,7 @@ export class Home extends Component {
                 <small>{brewSize.volume_unit}</small>
               </div>
             </td>
-            {this.renderCalculationColums(brewSize)}
+            {this.renderCalculationColumns(brewSize)}
           </tr>
         </React.Fragment>
       );
