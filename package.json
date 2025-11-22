@@ -61,8 +61,8 @@
     "react": "^19.2.0",
     "react-bootstrap": "^2.10.10",
     "react-dom": "^19.2.0",
-    "react-router": "^7.9.4",
-    "react-router-dom": "^7.9.4",
+    "react-router": "^7.9.6",
+    "react-router-dom": "^7.9.6",
     "store": "^2.0.12",
     "uuid": "^13.0.0"
   },
