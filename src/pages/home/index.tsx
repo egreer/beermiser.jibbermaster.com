@@ -20,7 +20,7 @@ import {
 } from "react-bootstrap";
 import store from "store/dist/store.modern";
 import { v4 as uuidv4 } from "uuid";
-import { Footer } from "../../components/Footert";
+import { Footer } from "../../components/Footer";
 import { Confirm } from "../../confirm/Confirm";
 import { Brew, Size } from "../../models/brew";
 
