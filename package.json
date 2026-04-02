@@ -69,12 +69,12 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.23",
-    "@types/node": "^25.2.3",
+    "@types/node": "^25.5.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@types/react-router-dom": "^5.3.3",
     "@types/store": "^2.0.5",
-    "@typescript-eslint/eslint-plugin": "^8.56.0",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
     "@typescript-eslint/parser": "^8.31.0",
     "@vitejs/plugin-react": "^5.1.4",
     "eslint": "^9.39.2",
@@ -90,7 +90,7 @@
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "pretty-quick": "^4.2.2",
-    "sass": "^1.97.3",
+    "sass": "^1.98.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-pwa": "^1.2.0"
