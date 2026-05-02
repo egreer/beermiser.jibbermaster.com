@@ -92,7 +92,7 @@
     "pretty-quick": "^4.2.2",
     "sass": "^1.98.0",
     "typescript": "^5.9.3",
-    "vite": "^7.3.2",
+    "vite": "^8.0.10",
     "vite-plugin-pwa": "^1.2.0"
   },
   "overrides": {
