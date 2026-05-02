@@ -65,7 +65,7 @@
     "react-router": "^7.14.0",
     "react-router-dom": "^7.14.0",
     "store": "^2.0.12",
-    "uuid": "^13.0.0"
+    "uuid": "^14.0.0"
   },
   "devDependencies": {
     "@types/lodash": "^4.17.23",
